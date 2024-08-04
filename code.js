@@ -1,6 +1,6 @@
-var sysVersion = "0.6";
-var sysBuild = 450;
-var sysCodename = "Vibranium";
+var sysVersion = "0.7";
+var sysBuild = 510;
+var sysCodename = "Unity";
 var sysScales = ["9", "12", "15", "20", "24"];
 var sysDevMode = 1;
 var FirstRunOSK = 0;
@@ -11,6 +11,7 @@ var passcodehash = "";
 var bioslock = 0;
 var Icons = [];
 var icns = 0;
+var currentOSK = 999;
 var icons = ["icon://fa-cogs", "icon://fa-download", "icon://fa-music"];
 var keyboard_locale = qwerty_us;
 var songnames = ["Thatched Villagers", "Sneaky Snitch", "Mind Control"];
@@ -36,23 +37,59 @@ timedLoop(1, function() {
 if (isremixed[(getText("TidalOS.music.ID"))]) {
   setText("TidalOS.music.sba", (songnames[(getText("TidalOS.music.ID"))] + " \n by \n ") + songcomposers[(((getText("TidalOS.music.ID"))) + "\n remixed by " + remixedby[(getText("TidalOS.music.ID"))])]);
 } else {
-  setText("TidalOS.music.sba", (songnames[(getText("TidalOS.music.ID"))] + " \n by \n ") + songcomposers[(getText("TidalOS.music.ID"))]);
+  if (!"") {
+    setText("TidalOS.music.sba", (songnames[(getText("TidalOS.music.ID"))] + " \n by \n ") + songcomposers[(getText("TidalOS.music.ID"))]);
+  } else {
+    setText("TidalOS.music.sba", (songnames[(getText("TidalOS.music.ID"))] + " \n by \n ") + songcomposers[(getText("TidalOS.music.ID"))]);
+  }
 }
 setText("TidalOS.settings.wifi.window", "TidalOS Settings \n \n Internet \n \n Networks: \n  \n Network: " + SFS.ListNetworks().join("\n" + "\n Network: "));
 });
 function oskopen(menu, inputid, letters) {
-  deleteElement("osk.1");
-  deleteElement("osk.2");
-  deleteElement("osk.3");
-  deleteElement("osk.4");
-  deleteElement("osk.5");
-  deleteElement("osk.6");
-  deleteElement("osk.7");
-  deleteElement("osk.8");
-  deleteElement("osk.0");
-  deleteElement("osk.9");
-  deleteElement("osk.a");
-    deleteElement("osk.b");
+  if (!FirstRunOSK) {
+    deleteElement("osk.1");
+    deleteElement("osk.2");
+    deleteElement("osk.3");
+    deleteElement("osk.4");
+    deleteElement("osk.5");
+    deleteElement("osk.6");
+    deleteElement("osk.7");
+    deleteElement("osk.8");
+    deleteElement("osk.0");
+    deleteElement("osk.9");
+    if (currentOSK) {
+      deleteElement("osk.@");
+      deleteElement("osk.#");
+      deleteElement("osk.$");
+      deleteElement("osk.%");
+      deleteElement("osk.^");
+      deleteElement("osk.&");
+      deleteElement("osk.*");
+      deleteElement("osk.(");
+      deleteElement("osk.)");
+      deleteElement("osk.'");
+      deleteElement("osk.\"");
+  deleteElement("osk.?");
+  deleteElement("osk.:");
+  deleteElement("osk.;");
+  deleteElement("osk./");
+      deleteElement("osk.-");
+      deleteElement("osk.=");
+      deleteElement("osk.+");
+      deleteElement("osk._");
+      deleteElement("osk.\\");
+      deleteElement("osk.[");
+      deleteElement("osk.]");
+      deleteElement("osk.{");
+      deleteElement("osk.}");
+      deleteElement("osk.∀");
+      deleteElement("osk.™")
+      deleteElement("osk.©");
+      deleteElement("osk.Þ");
+      deleteElement("osk.letters");
+    } else {
+          deleteElement("osk.a");
+          deleteElement("osk.b");
     deleteElement("osk.c");
     deleteElement("osk.d");
     deleteElement("osk.e");
@@ -77,50 +114,16 @@ function oskopen(menu, inputid, letters) {
     deleteElement("osk.x");
     deleteElement("osk.y");
     deleteElement("osk.z");
-  deleteElement("osk.!");
-  deleteElement("osk..");
-  deleteElement("osk.,");
-  deleteElement("osk.syms");
-    deleteElement("osk.@");
-    deleteElement("osk.#");
-    deleteElement("osk.$");
-    deleteElement("osk.%");
-    deleteElement("osk.^");
-    deleteElement("osk.&");
-    deleteElement("osk.*");
-    deleteElement("osk.(");
-    deleteElement("osk.)");
-    deleteElement("osk.'");
-    deleteElement("osk.\"");
-    deleteElement("osk.-");
-    deleteElement("osk.=");
-    deleteElement("osk.+");
-    deleteElement("osk._");
-    deleteElement("osk.\\");
-    deleteElement("osk.[");
-    deleteElement("osk.]");
-    deleteElement("osk.{");
-    deleteElement("osk.}");
-    deleteElement("osk.∀");
-    deleteElement("osk.™");
-    deleteElement("osk.space");
-    deleteElement("osk.©");
-    deleteElement("osk.math");
-    deleteElement("osk.textemote");
-    deleteElement("osk.symbols");
-    deleteElement("osk.o_o");
-    deleteElement("osk.O_O");
-    deleteElement("osk.O_o");
-    deleteElement("osk.^_^");
-    deleteElement("osk.-_-");
-    deleteElement("osk.:D");
-    deleteElement("osk.D:");
-    deleteElement("osk.:3");
-    deleteElement("osk.:(");
-    deleteElement("osk.:'(");
-    deleteElement("osk.:#");
-    deleteElement("osk.:o");
-    deleteElement("osk.:O");
+          deleteElement("osk.symbols");
+          deleteElement("osk.backspace");
+          deleteElement("osk.enter");
+    }
+    deleteElement("osk.!");
+    deleteElement("osk..");
+    deleteElement("osk.,");
+      deleteElement("osk.space");
+  }
+
   if (menu == 0) {
     BetterElementMakerAPI.Button("osk.1", 0, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "1", "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.2", 30, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "2", "rgb(0, 0, 0)");
@@ -138,19 +141,21 @@ function oskopen(menu, inputid, letters) {
     BetterElementMakerAPI.Button("osk.r", 90, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[3], "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.t", 120, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[4], "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.y", 150, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[5], "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.u", 180, 325, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[6], "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.i", 220, 325, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[7], "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.o", 260, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[8], "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.p", 290, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[9], "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.u", 180, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[6], "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.i", 210, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[7], "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.o", 240, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[8], "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.p", 270, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[9], "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.backspace", 300, 325, 20, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "←  ", "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.a", 10, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[10], "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.s", 40, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[11], "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.d", 70, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[12], "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.f", 100, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[13], "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.g", 130, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[14], "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.h", 160, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[15], "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.j", 190, 355, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[16], "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.k", 230, 355, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[17], "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.l", 270, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[18], "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.j", 190, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[16], "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.k", 220, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[17], "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.l", 250, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[18], "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.enter", 280, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "⏎", "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.z", 15, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[19], "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.x", 45, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[20], "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.c", 75, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", letters[21], "rgb(0, 0, 0)");
@@ -161,162 +166,8 @@ function oskopen(menu, inputid, letters) {
     BetterElementMakerAPI.Button("osk..", 225, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ".", "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.,", 255, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ",", "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.!", 285, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "!", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.syms", 0, 415, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "%", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.textemote", 30, 415, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ":)", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.symbols", 0, 415, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "%", "rgb(0, 0, 0)");
     BetterElementMakerAPI.Button("osk.space", 60, 415, 180, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "space", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.math", 240, 415, 90, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "∞", "rgb(0, 0, 0)");
-  } else if (menu == 1) {
-    BetterElementMakerAPI.Button("osk.1", 0, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "1", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.2", 30, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "2", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.3", 60, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "3", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.4", 90, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "4", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.5", 120, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "5", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.6", 150, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "6", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.7", 180, 295, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "7", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.8", 220, 295, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "8", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.9", 260, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "9", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.0", 290, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "0", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.@", 0, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "@", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.#", 30, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "#", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.$", 60, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "$", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.&", 90, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "&", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.*", 120, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "*", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.(", 150, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "(", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.)", 180, 325, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ")", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.'", 220, 325, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "'", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.\"", 260, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "\"", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.%", 290, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "%", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.-", 10, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "-", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.+", 40, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "+", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.=", 70, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "=", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk./", 100, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "/", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.;", 130, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ";", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.:", 160, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ":", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.,", 190, 355, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ",", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk..", 230, 355, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ".", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.[", 270, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "[", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.]", 15, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "]", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.{", 45, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "{", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.}", 75, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "}", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.^", 105, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "^", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.!", 135, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "!", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.?", 165, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "?", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.∀", 195, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "∀", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.™", 225, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "™", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.©", 255, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "©", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.Þ", 285, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "Þ", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.letters", 0, 415, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "A", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.textemote", 30, 415, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ":)", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.space", 60, 415, 180, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "space", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.math", 240, 415, 90, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "∞", "rgb(0, 0, 0)");
-  } else if (menu == 2) {
-    BetterElementMakerAPI.Button("osk.1", 0, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "1", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.2", 30, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "2", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.3", 60, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "3", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.4", 90, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "4", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.5", 120, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "5", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.6", 150, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "6", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.7", 180, 295, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "7", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.8", 220, 295, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "8", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.9", 260, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "9", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.0", 290, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "0", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.^_^", 10, 325, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "^_^", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.>.<", 70, 325, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ">.<", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.-_-", 130, 325, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "-_-", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.:D", 190, 325, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ":D", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.:3", 250, 325, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ":3", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.:(", 10, 355, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ":(", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.:'(", 70, 355, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ":'(", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.D:", 130, 355, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "D:", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.:o", 190, 355, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ":o", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.:O", 250, 355, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ":O", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.|_|", 10, 385, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "|_|", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.o_o", 70, 385, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "O_O", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.O_O", 130, 385, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "o_o", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.O_o", 190, 385, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "O_o", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.:#", 250, 385, 60, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ":#", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.letters", 0, 415, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "A", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.symbols", 30, 415, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "%", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.space", 60, 415, 180, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "space", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.math", 240, 415, 90, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "∞", "rgb(0, 0, 0)");
-  } else if (menu == 3) {
-    BetterElementMakerAPI.Button("osk.1", 0, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "1", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.2", 30, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "2", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.3", 60, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "3", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.4", 90, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "4", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.5", 120, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "5", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.6", 150, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "6", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.7", 180, 295, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "7", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.8", 220, 295, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "8", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.9", 260, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "9", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.0", 290, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "0", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.∞", 0, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "∞", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.#", 30, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "√", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.∑", 60, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "∑", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.∂", 90, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "∂", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.∫", 120, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "∫", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.π", 150, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "π", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.θ", 180, 325, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "θ", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.Δ", 220, 325, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "Δ", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.ω", 260, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "ω", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.Ω", 290, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "Ω", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.-", 10, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "-", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.+", 40, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "+", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.=", 70, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "=", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk./", 100, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "/", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.*", 130, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "*", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.∇", 160, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "∇", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.ↂ", 190, 355, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "ↂ", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.ↈ", 230, 355, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "ↈ", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.ↁ", 270, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "ↁ", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.ↇ", 15, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "ↇ", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.∝", 45, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "∝", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.}", 75, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "}", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.^", 105, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "^", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.!", 135, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "!", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.@", 165, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "@", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.∀", 195, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "∀", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.™", 225, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "™", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.©", 255, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "©", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.Þ", 285, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "Þ", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.letters", 0, 415, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "A", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.textemote", 30, 415, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ":)", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.space", 60, 415, 180, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "space", "rgb(0, 0, 0)");
-    BetterElementMakerAPI.Button("osk.symbols", 240, 415, 90, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "%", "rgb(0, 0, 0)");
-  } else {
-    
-  }
-  if (!FirstRunOSK) {
-    onEvent("osk.1", "click", function( ) {
-      setText(inputid, getText(inputid) + "1");
-    });
-    onEvent("osk.2", "click", function( ) {
-      setText(inputid, getText(inputid) + "2");
-    });
-    onEvent("osk.3", "click", function( ) {
-      setText(inputid, getText(inputid) + "3");
-    });
-    onEvent("osk.4", "click", function( ) {
-      setText(inputid, getText(inputid) + "4");
-    });
-    onEvent("osk.5", "click", function( ) {
-      setText(inputid, getText(inputid) + "5");
-    });
-    onEvent("osk.6", "click", function( ) {
-      setText(inputid, getText(inputid) + "6");
-    });
-    onEvent("osk.7", "click", function( ) {
-      setText(inputid, getText(inputid) + "7");
-    });
-    onEvent("osk.8", "click", function( ) {
-      setText(inputid, getText(inputid) + "8");
-    });
-    onEvent("osk.9", "click", function( ) {
-      setText(inputid, getText(inputid) + "9");
-    });
-    onEvent("osk.0", "click", function( ) {
-      setText(inputid, getText(inputid) + "0");
-    });
     onEvent("osk.a", "click", function( ) {
       setText(inputid, getText(inputid) + getText("osk.a"));
     });
@@ -395,10 +246,58 @@ function oskopen(menu, inputid, letters) {
     onEvent("osk.z", "click", function( ) {
       setText(inputid, getText(inputid) + getText("osk.z"));
     });
-    onEvent("osk.!", "click", function( ) {
-      setText(inputid, getText(inputid) + "!");
+    onEvent("osk.enter", "click", function( ) {
+      setText(inputid, getText(inputid) + "\n");
     });
-    onEvent("osk.@", "click", function( ) {
+    onEvent("osk.backspace", "click", function( ) {
+      setText(inputid, getText(inputid).substring(0, getText(inputid).length - 1));
+    });
+    onEvent("osk.symbols", "click", function( ) {
+      oskopen(1, inputid, letters);
+    });
+  } else if (menu == 1) {
+    BetterElementMakerAPI.Button("osk.1", 0, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "1", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.2", 30, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "2", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.3", 60, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "3", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.4", 90, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "4", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.5", 120, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "5", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.6", 150, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "6", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.7", 180, 295, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "7", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.8", 220, 295, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "8", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.9", 260, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "9", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.0", 290, 295, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "0", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.@", 0, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "@", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.#", 30, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "#", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.$", 60, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "$", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.&", 90, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "&", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.*", 120, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "*", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.(", 150, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "(", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.)", 180, 325, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ")", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.'", 220, 325, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "'", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.\"", 260, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "\"", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.%", 290, 325, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "%", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.-", 10, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "-", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.+", 40, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "+", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.=", 70, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "=", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk./", 100, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "/", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.;", 130, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ";", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.:", 160, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ":", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.,", 190, 355, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ",", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk..", 230, 355, 40, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", ".", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.[", 270, 355, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "[", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.]", 15, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "]", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.{", 45, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "{", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.}", 75, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "}", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.^", 105, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "^", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.!", 135, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "!", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.?", 165, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "?", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.∀", 195, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "∀", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.™", 225, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "™", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.©", 255, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "©", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.Þ", 285, 385, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "Þ", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.letters", 0, 415, 30, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "A", "rgb(0, 0, 0)");
+    BetterElementMakerAPI.Button("osk.space", 60, 415, 180, 30, 0, "rgba(26, 37, 52, 0.68)", "rgb(255,255,255)", "space", "rgb(0, 0, 0)");
+        onEvent("osk.@", "click", function( ) {
       setText(inputid, getText(inputid) + "@");
     });
     onEvent("osk.#", "click", function( ) {
@@ -434,17 +333,46 @@ function oskopen(menu, inputid, letters) {
     onEvent("osk.letters", "click", function( ) {
       oskopen(0, inputid, letters);
     });
-    onEvent("osk.symbols", "click", function( ) {
-      oskopen(1, inputid, letters);
+  } else {
+    
+  }
+  if (!FirstRunOSK) {
+    onEvent("osk.1", "click", function( ) {
+      setText(inputid, getText(inputid) + "1");
     });
-    //onEvent("osk.textemote", "click", function( ) {
-    //  oskopen(2, inputid, letters);
-    //});
-    //onEvent("osk.math", "click", function( ) {
-    //  oskopen(3, inputid, letters);
-    //});
+    onEvent("osk.2", "click", function( ) {
+      setText(inputid, getText(inputid) + "2");
+    });
+    onEvent("osk.3", "click", function( ) {
+      setText(inputid, getText(inputid) + "3");
+    });
+    onEvent("osk.4", "click", function( ) {
+      setText(inputid, getText(inputid) + "4");
+    });
+    onEvent("osk.5", "click", function( ) {
+      setText(inputid, getText(inputid) + "5");
+    });
+    onEvent("osk.6", "click", function( ) {
+      setText(inputid, getText(inputid) + "6");
+    });
+    onEvent("osk.7", "click", function( ) {
+      setText(inputid, getText(inputid) + "7");
+    });
+    onEvent("osk.8", "click", function( ) {
+      setText(inputid, getText(inputid) + "8");
+    });
+    onEvent("osk.9", "click", function( ) {
+      setText(inputid, getText(inputid) + "9");
+    });
+    onEvent("osk.0", "click", function( ) {
+      setText(inputid, getText(inputid) + "0");
+    });
+    onEvent("osk.!", "click", function( ) {
+      setText(inputid, getText(inputid) + "!");
+    });
     FirstRunOSK = 1;
   }
+  currentOSK = menu;
 }
 function biosBoot() {
   install("settings", 0, 0);
